@@ -1,32 +1,34 @@
 /*
- * HOW TO USE THIS LIBRARY:
- * 		ST7565_begin(0x7);
- * 		ST7565_clear(); <- clears the buffer
+ * 	HOW TO USE THIS LIBRARY:
  *
- * 		then you write something etc
- *
- * 		ST7565_display(); <- send to LCD
+ * 	ST7565_begin(0x7); <- initializes the display
+ * 	ST7565_clear();    <- clears the buffer
+ * 	Writing / drawing
+ * 	ST7565_display();  <- send data to LCD
  */
 
-///must have libs
+// Required libraries
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 
-//uC specific
-#include "stm32f1xx.h"
-#include "stm32f1xx_it.h"
-#include "stm32f1xx_hal_conf.h"
+// uC specific libraries
+#include "stm32f4xx.h"
+#include "stm32f4xx_it.h"
+#include "stm32f4xx_hal_conf.h"
 #include "main.h"
 
+
+// SPI HANDLER
 SPI_HandleTypeDef hspi1;
+#define handler_1 hspi1
 
 
 
 //////////////////////////////////////////////////////////////////////////////
 
-//pin defines (you can change the values on the right to match your uC)
+// Pin Definitions - change those to match your project
 #define CS_pin CS_Pin
 #define CS_port CS_GPIO_Port
 
@@ -39,15 +41,23 @@ SPI_HandleTypeDef hspi1;
 #define GPIO_PIN_SET 1
 #define GPIO_PIN_RESET 0
 
+//////////////////////////////////////////////////////////////////////////////
+
+// Bit value macro
+#define _BV(bit)(1 << (bit))
+
+// Macro for swapping two uint8_t values
+#define swap(a, b) { uint8_t t = a; a = b; b = t; }
 
 //////////////////////////////////////////////////////////////////////////////
 
-//bit value macro
-#define _BV(bit)(1 << (bit))
+// Display setup
+#define enablePartialUpdate
+#define ST7565_STARTBYTES 0
 
-//swap two uint8_t values macro
-#define swap(a, b) { uint8_t t = a; a = b; b = t; }
+//////////////////////////////////////////////////////////////////////////////
 
+// Basic defines
 #define BLACK 1
 #define WHITE 0
 
@@ -95,29 +105,71 @@ SPI_HandleTypeDef hspi1;
 
 //////////////////////////////////////////////////////////////////////////////
 
+// Basic display initialization
 void ST7565_st7565_init(void);
+
+// Display startup settings including contrast
+// 0x07 is usually a good starting point (0x18 for some displays)
 void ST7565_begin(uint8_t contrast);
+
+// Send a single command
 void ST7565_st7565_command(uint8_t c);
+
+// Send data to the display
 void ST7565_st7565_data(uint8_t c);
+
+// Set display brightness
 void ST7565_st7565_set_brightness(uint8_t val);
+
+// Doesn't touch the buffer, but clears the display RAM
 void ST7565_clear_display(void);
+
+// Clear everything in the uC buffer (doesn't affect the screen output)
 void ST7565_clear();
+
+// Send buffer content to display
 void ST7565_display();
 
+// Set a single pixel
 void ST7565_setpixel(uint8_t x, uint8_t y, uint8_t color);
+
+// Get the value of a single pixel
 uint8_t ST7565_getpixel(uint8_t x, uint8_t y);
+
+// Draw a filled circle
 void ST7565_fillcircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
+
+// Draw a circle
 void ST7565_drawcircle(uint8_t x0, uint8_t y0, uint8_t r, uint8_t color);
+
+// Draw a rectangle
 void ST7565_drawrect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
+
+// Draw a filled rectangle
 void ST7565_fillrect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t color);
+
+// Bresenham's algorithm for drawing a single line
 void ST7565_drawline(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t color);
+
+// Draw a single char in location: x, line
 void ST7565_drawchar(uint8_t x, uint8_t line, char c);
+
+// Draw a string
 void ST7565_drawstring(uint8_t x, uint8_t line, char* c);
+
+// Draw a string (used for const char*)
 void ST7565_drawstring_P(uint8_t x, uint8_t line, const char* c);
 
+// Draw a bitmap under the specified location
 void ST7565_drawbitmap(uint8_t x, uint8_t y, const uint8_t* bitmap, uint8_t w, uint8_t h, uint8_t color);
 
+// Send a single byte through SPI
 void ST7565_spiwrite(uint8_t c);
 
+// Set a single pixel without updating the bounding box
 void ST7565_my_setpixel(uint8_t x, uint8_t y, uint8_t color);
 
+// Get nth element from the 12x16 font array
+// How to use it - create an array uint8_t[22] - buffer
+// Then use the buffer as a bitmap
+void ST7565_get_big_font_bmp(uint8_t number, uint8_t* buffer);
