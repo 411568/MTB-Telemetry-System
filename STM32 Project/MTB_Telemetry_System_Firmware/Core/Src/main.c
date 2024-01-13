@@ -31,6 +31,7 @@
 #include "BrakeSensors.h"
 #include "MiscellaneousFunctions.h"
 #include <stdio.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -76,7 +77,7 @@ int main(void)
 
   /* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes t	he Flash interface and the Systick. */
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -107,52 +108,56 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  // TEST
+		  //HAL_GPIO_TogglePin(DisplayRSE_GPIO_Port, DisplayRSE_Pin);
+		  HAL_Delay(1000);
+		  // TEST
+		  ST7565_clear(); // clear the display
+		  ST7565_drawstring(0, 0, "Hello world!");
+
+
+		  // Read magnetometer data
+		 // uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
+		 // uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
+		  char str[10] = "";
+		  char str_temp[20] = "";
+
+		 // sprintf(str, "%u", HMC_x_axis_front);
+		 // ST7565_drawstring(2, 0, "Front travel: ");
+		 // ST7565_drawstring(2, 20, str);
+
+		//  sprintf(str, "%u", HMC_x_axis_rear);
+		//  ST7565_drawstring(3, 0, "Rear travel: ");
+		//  ST7565_drawstring(3, 20, str);
+
+		  // Read brake sensor ADC
+		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
+		  uint16_t Brake_right = Brake_Sensor_Read(SENSOR_RIGHT);
+
+		  sprintf(str, "%u", Brake_left);
+		  strcpy(str_temp, "Brake left: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 4, str_temp);
+
+		  sprintf(str, "%u", Brake_right);
+		  strcpy(str_temp, "Brake right: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 5, str_temp);
+
+		  // Read battery voltage
+		  uint8_t battery_voltage = Read_Battery_Voltage();
+		  sprintf(str, "%u", battery_voltage);
+		  strcpy(str_temp, "Battery voltage: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 6, str_temp);
+
+		  // TODO
+		  // Read accelerometer and gyroscpe
+
+		  // Send data to display
+		  ST7565_display();
     /* USER CODE END WHILE */
 
-	  // TEST
-	  //HAL_GPIO_TogglePin(DisplayRSE_GPIO_Port, DisplayRSE_Pin);
-	  HAL_Delay(1000);
-
-	  // TEST
-	  ST7565_drawstring(1, 1, "Hello world!");
-
-
-	  // Read magnetometer data
-	  uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
-	  uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
-	  char str[10] = "";
-
-	  sprintf(str, "%u", HMC_x_axis_front);
-	  ST7565_drawstring(2, 0, "Front travel: ");
-	  ST7565_drawstring(2, 20, str);
-
-	  sprintf(str, "%u", HMC_x_axis_rear);
-	  ST7565_drawstring(3, 0, "Rear travel: ");
-	  ST7565_drawstring(3, 20, str);
-
-	  // Read brake sensor ADC
-	  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
-	  uint16_t Brake_right = Brake_Sensor_Read(SENSOR_RIGHT);
-
-	  sprintf(str, "%u", Brake_left);
-	  ST7565_drawstring(4, 0, "Brake left: ");
-	  ST7565_drawstring(4, 20, str);
-
-	  sprintf(str, "%u", Brake_right);
-	  ST7565_drawstring(5, 0, "Brake right: ");
-	  ST7565_drawstring(5, 20, str);
-
-	  // Read battery voltage
-	  uint8_t battery_voltage = Read_Battery_Voltage();
-	  sprintf(str, "%u", battery_voltage);
-	  ST7565_drawstring(6, 0, "Battery voltage: ");
-	  ST7565_drawstring(6, 20, str);
-
-	  // TODO
-	  // Read accelerometer and gyroscpe
-
-	  // Send data to display
-	  ST7565_display();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

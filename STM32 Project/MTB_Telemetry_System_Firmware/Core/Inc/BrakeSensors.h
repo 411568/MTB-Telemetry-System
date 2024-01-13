@@ -11,8 +11,8 @@ ADC_HandleTypeDef hadc1;
 #define handler_1_brakes hadc1
 
 // Channels definition
-#define CHANNEL_LEFT ADC_CHANNEL_1
-#define CHANNEL_RIGHT ADC_CHANNEL_2
+#define CHANNEL_LEFT ADC_CHANNEL_0
+#define CHANNEL_RIGHT ADC_CHANNEL_1
 
 
 // Read the brake sensor ADC

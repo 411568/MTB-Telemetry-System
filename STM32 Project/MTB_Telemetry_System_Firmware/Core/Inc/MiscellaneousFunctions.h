@@ -5,7 +5,7 @@
 ADC_HandleTypeDef hadc1;
 #define handler_batt_adc hadc1
 
-#define CHANNEL_BATT_ADC ADC_CHANNEL_3
+#define CHANNEL_BATT_ADC ADC_CHANNEL_2
 
 
 // Set active ADC channel
