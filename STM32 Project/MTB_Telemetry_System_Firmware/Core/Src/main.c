@@ -149,7 +149,7 @@ int main(void)
 		  // Read battery voltage
 		  uint8_t battery_voltage = Read_Battery_Voltage();
 		  sprintf(str, "%u", battery_voltage);
-		  strcpy(str_temp, "Battery voltage: ");
+		  strcpy(str_temp, "Battery percent: ");
 		  strcat(str_temp, str);
 		  ST7565_drawstring(0, 5, str_temp);
 
