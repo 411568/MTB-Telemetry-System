@@ -17,9 +17,8 @@ void ADC_SetActiveChannel(ADC_HandleTypeDef *hadc, uint32_t AdcChannel)
 uint8_t Read_Battery_Voltage()
 {
 	uint16_t ADC_reading = 0;
-	float battery_voltage = 0.0;
-	const float voltage_divider = 0.5;
-	const float adc_voltage = 3.3;
+	uint8_t battery_out = 0;
+	const uint16_t bat_min = 2172; // minimum battery reading (about 3.5V)
 
 	// Get the ADC reading
 	ADC_SetActiveChannel(&handler_batt_adc, CHANNEL_BATT_ADC);
@@ -27,8 +26,19 @@ uint8_t Read_Battery_Voltage()
 	HAL_ADC_PollForConversion(&handler_batt_adc, HAL_MAX_DELAY);
 	ADC_reading = HAL_ADC_GetValue(&handler_batt_adc);
 
-	// Convert to voltage
-	battery_voltage = 10 * ADC_reading / 4096 * adc_voltage * voltage_divider;
+	// Return the battery %
+	if (ADC_reading < bat_min)
+	{
+		battery_out = 0;
+	}
+	else
+	{
+		battery_out = (ADC_reading - bat_min) / 5;
+		if (battery_out > 100) // if the voltage exceeds about 4.15 V (depends on the ADC supply voltage, so it might shift a little)
+		{
+			battery_out = 100;
+		}
+	}
 
-	return (uint8_t)(battery_voltage);
+	return battery_out;
 }

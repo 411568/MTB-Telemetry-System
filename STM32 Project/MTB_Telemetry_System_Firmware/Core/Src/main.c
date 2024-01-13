@@ -125,12 +125,12 @@ int main(void)
 		  sprintf(str, "%u", HMC_x_axis_front);
 		  strcpy(str_temp, "Travel front: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 2, str_temp);
+		  ST7565_drawstring(0, 1, str_temp);
 
 		  sprintf(str, "%u", HMC_x_axis_rear);
 		  strcpy(str_temp, "Travel rear: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 3, str_temp);
+		  ST7565_drawstring(0, 2, str_temp);
 
 		  // Read brake sensor ADC
 		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
@@ -139,19 +139,19 @@ int main(void)
 		  sprintf(str, "%u", Brake_left);
 		  strcpy(str_temp, "Brake left: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 4, str_temp);
+		  ST7565_drawstring(0, 3, str_temp);
 
 		  sprintf(str, "%u", Brake_right);
 		  strcpy(str_temp, "Brake right: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 5, str_temp);
+		  ST7565_drawstring(0, 4, str_temp);
 
 		  // Read battery voltage
 		  uint8_t battery_voltage = Read_Battery_Voltage();
 		  sprintf(str, "%u", battery_voltage);
 		  strcpy(str_temp, "Battery voltage: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 6, str_temp);
+		  ST7565_drawstring(0, 5, str_temp);
 
 		  // TODO
 		  // Read accelerometer and gyroscpe
