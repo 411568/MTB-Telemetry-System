@@ -117,18 +117,20 @@ int main(void)
 
 
 		  // Read magnetometer data
-		 // uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
-		 // uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
+		  uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
+		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
 		  char str[10] = "";
 		  char str_temp[20] = "";
 
-		 // sprintf(str, "%u", HMC_x_axis_front);
-		 // ST7565_drawstring(2, 0, "Front travel: ");
-		 // ST7565_drawstring(2, 20, str);
+		  sprintf(str, "%u", HMC_x_axis_front);
+		  strcpy(str_temp, "Travel front: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 2, str_temp);
 
-		//  sprintf(str, "%u", HMC_x_axis_rear);
-		//  ST7565_drawstring(3, 0, "Rear travel: ");
-		//  ST7565_drawstring(3, 20, str);
+		  sprintf(str, "%u", HMC_x_axis_rear);
+		  strcpy(str_temp, "Travel rear: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 3, str_temp);
 
 		  // Read brake sensor ADC
 		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
