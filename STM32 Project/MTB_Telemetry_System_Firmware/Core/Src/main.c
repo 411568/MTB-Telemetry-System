@@ -22,6 +22,7 @@
 #include "i2c.h"
 #include "rtc.h"
 #include "spi.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -64,7 +65,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t test = 0;
 /* USER CODE END 0 */
 
 /**
@@ -101,6 +102,7 @@ int main(void)
   MX_RTC_Init();
   MX_SPI1_Init();
   MX_SPI2_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
   RTC_TimeTypeDef time; // Create time struct
@@ -117,6 +119,15 @@ int main(void)
   {
 	  Error_Handler();
   }
+
+  HAL_TIM_Base_Start_IT(&htim4);
+  /*if(HAL_TIM_Base_Start_IT(&htim2) == HAL_OK)
+  {
+	  ST7565_clear(); // clear the display
+	  		  ST7565_drawstring(0, 0, "error!");
+	  		  ST7565_display();
+  }*/
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,7 +136,7 @@ int main(void)
   {
 	  // TEST
 		  //HAL_GPIO_TogglePin(DisplayRSE_GPIO_Port, DisplayRSE_Pin);
-		  HAL_Delay(1000);
+		 // HAL_Delay(1000);
 		  // TEST
 		  ST7565_clear(); // clear the display
 		  ST7565_drawstring(0, 0, "Hello world!");
@@ -134,7 +145,7 @@ int main(void)
 		  // Read magnetometer data
 		  char str[10] = "";
 		  char str_temp[20] = "";
-		 /* uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
+		  uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
 		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
 
 
@@ -146,7 +157,7 @@ int main(void)
 		  sprintf(str, "%u", HMC_x_axis_rear);
 		  strcpy(str_temp, "Travel rear: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 2, str_temp);*/
+		  ST7565_drawstring(0, 2, str_temp);
 
 		  // Read brake sensor ADC
 		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
@@ -192,6 +203,10 @@ int main(void)
 		  strcpy(str_temp, "Second: ");
 		  strcat(str_temp, str);
 		  ST7565_drawstring(0, 6, str_temp);
+
+		  // Interrupt test
+		  sprintf(str, "%u", test);
+		  ST7565_drawstring(0, 7, str);
 
 		  // Send data to display
 		  ST7565_display();
@@ -244,6 +259,22 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
+// Timer interrupt
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  // Check which version of the timer triggered this callback
+  if (htim == &htim4)
+  {
+	  if (test == 0)
+	  {
+		  test = 1;
+	  }
+	  else
+	  {
+		  test = 0;
+	  }
+  }
+}
 /* USER CODE END 4 */
 
 /**
