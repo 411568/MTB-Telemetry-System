@@ -101,10 +101,16 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
+
   ST7565_begin(0x7); // Initialize display
   ST7565_clear(); // Clear the display
   HMC5883L_initialize(); // Initialize magnetometers
-  MPU6050_initialize(); // Initialize MPU6050
+  uint8_t check = MPU6050_initialize(); // Initialize MPU6050
+
+  if (check == 1)
+  {
+	  Error_Handler();
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
