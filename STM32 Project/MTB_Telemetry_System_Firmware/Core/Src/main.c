@@ -32,6 +32,7 @@
 #include "MiscellaneousFunctions.h"
 #include <stdio.h>
 #include <string.h>
+#include "MPU6050.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,8 +101,10 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  ST7565_begin(0x7); // initize display
-  ST7565_clear(); // clear the display
+  ST7565_begin(0x7); // Initialize display
+  ST7565_clear(); // Clear the display
+  HMC5883L_initialize(); // Initialize magnetometers
+  MPU6050_initialize(); // Initialize MPU6050
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -153,8 +156,20 @@ int main(void)
 		  strcat(str_temp, str);
 		  ST7565_drawstring(0, 5, str_temp);
 
-		  // TODO
+
 		  // Read accelerometer and gyroscpe
+		  int16_t accel_x = MPU6050_accel_read(Xaxis);
+		  int16_t gyro_x = MPU6050_gyro_read(Xaxis);
+
+		  sprintf(str, "%u", accel_x);
+		  strcpy(str_temp, "Accel: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 6, str_temp);
+
+		  sprintf(str, "%u", gyro_x);
+		  strcpy(str_temp, "Gyro: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 7, str_temp);
 
 		  // Send data to display
 		  ST7565_display();

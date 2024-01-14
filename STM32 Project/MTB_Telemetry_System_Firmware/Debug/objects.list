@@ -1,5 +1,6 @@
 "./Core/Src/BrakeSensors.o"
 "./Core/Src/HMC5883L.o"
+"./Core/Src/MPU6050.o"
 "./Core/Src/MiscellaneousFunctions.o"
 "./Core/Src/ST7565.o"
 "./Core/Src/adc.o"
