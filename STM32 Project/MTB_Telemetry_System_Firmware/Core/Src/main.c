@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "MPU6050.h"
+#include "stm32f4xx_hal_rtc.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,9 +103,14 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 
+  RTC_TimeTypeDef time; // Create time struct
+  RTC_DateTypeDef date; // Create date struct
+
   ST7565_begin(0x7); // Initialize display
   ST7565_clear(); // Clear the display
+
   HMC5883L_initialize(); // Initialize magnetometers
+
   uint8_t check = MPU6050_initialize(); // Initialize MPU6050
 
   if (check == 1)
@@ -126,10 +132,11 @@ int main(void)
 
 
 		  // Read magnetometer data
-		  uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
-		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
 		  char str[10] = "";
 		  char str_temp[20] = "";
+		 /* uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
+		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
+
 
 		  sprintf(str, "%u", HMC_x_axis_front);
 		  strcpy(str_temp, "Travel front: ");
@@ -139,7 +146,7 @@ int main(void)
 		  sprintf(str, "%u", HMC_x_axis_rear);
 		  strcpy(str_temp, "Travel rear: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 2, str_temp);
+		  ST7565_drawstring(0, 2, str_temp);*/
 
 		  // Read brake sensor ADC
 		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
@@ -164,18 +171,27 @@ int main(void)
 
 
 		  // Read accelerometer and gyroscpe
-		  int16_t accel_x = MPU6050_accel_read(Xaxis);
-		  int16_t gyro_x = MPU6050_gyro_read(Xaxis);
+		  float accel_x = MPU6050_accel_read(Zaxis);
+		  float gyro_x = MPU6050_gyro_read(Zaxis);
 
-		  sprintf(str, "%u", accel_x);
+		  sprintf(str, "%.2f", accel_x);
 		  strcpy(str_temp, "Accel: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 6, str_temp);
+		  ST7565_drawstring(0, 1, str_temp);
 
-		  sprintf(str, "%u", gyro_x);
+		  sprintf(str, "%.2f", gyro_x);
 		  strcpy(str_temp, "Gyro: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 7, str_temp);
+		  ST7565_drawstring(0, 2, str_temp);
+
+		  // Get current time
+		  HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
+		  HAL_RTC_GetDate(&hrtc, &date, RTC_FORMAT_BIN);
+
+		  sprintf(str, "%u", time.Seconds);
+		  strcpy(str_temp, "Second: ");
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 6, str_temp);
 
 		  // Send data to display
 		  ST7565_display();
@@ -202,10 +218,10 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {

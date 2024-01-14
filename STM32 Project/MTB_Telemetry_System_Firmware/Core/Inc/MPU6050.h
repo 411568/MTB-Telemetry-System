@@ -9,14 +9,15 @@
 #define GYRO_XOUT_H_REG 0x43
 #define MPU6050_ADDR 0xD0
 
+/*
 #define GYRO_FS 131
 #define ACCEL_FS 16384
 #define ACCEL_FS_Z 14418
-
+*/
 
 // I2C handler
-I2C_HandleTypeDef hi2c2; // Rear sensor
-#define handler_MPU6050 hi2c2
+I2C_HandleTypeDef hi2c1;
+#define handler_MPU6050 hi2c1
 
 
 // Axis definition
@@ -29,7 +30,7 @@ I2C_HandleTypeDef hi2c2; // Rear sensor
 uint8_t MPU6050_initialize(void);
 
 // Get raw gyroscope reading
-int16_t MPU6050_gyro_read(uint8_t axis);
+float MPU6050_gyro_read(uint8_t axis);
 
 // Get raw accelerometer reading
-int16_t MPU6050_accel_read(uint8_t axis);
+float MPU6050_accel_read(uint8_t axis);
