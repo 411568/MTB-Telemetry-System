@@ -25,6 +25,10 @@ uint8_t MPU6050_initialize(void)
 		command = 0;
 		HAL_I2C_Mem_Write(&handler_MPU6050, MPU6050_ADDR, GYRO_CONFIG_REG, 1, &command, 1, 1000);
 
+		// Read all data from sensor
+		uint8_t Rec_Data[14];
+		HAL_I2C_Mem_Read(&handler_MPU6050, MPU6050_ADDR, ACCEL_XOUT_H_REG, 1, Rec_Data, 14, 1000);
+
 		return 0;
 	}
 	else
@@ -69,18 +73,30 @@ float MPU6050_accel_read(uint8_t axis)
 
 	if (axis == Xaxis)
 	{
-		return ((int16_t)(raw_data[0] << 8 | raw_data[1]) / 16384.0);
+		return (((int16_t)(raw_data[0] << 8 | raw_data[1])) / 16384.0);
 	}
 	else if (axis == Yaxis)
 	{
-		return ((int16_t)(raw_data[2] << 8 | raw_data[3]) / 16384.0);
+		return (((int16_t)(raw_data[2] << 8 | raw_data[3])) / 16384.0);
 	}
 	else if(axis == Zaxis)
 	{
-		return ((int16_t)(raw_data[4] << 8 | raw_data[5]) / 14418.0);
+		return (((int16_t)(raw_data[4] << 8 | raw_data[5])) / 14418.0);
 	}
 	else
 	{
 		return 999; // wrong input
 	}
+}
+
+
+float MPU6050_Read_Temp()
+{
+    uint8_t Rec_Data[2];
+    int16_t temp;
+
+    HAL_I2C_Mem_Read(&handler_MPU6050, MPU6050_ADDR, 0x41, 1, Rec_Data, 2, 1000);
+
+    temp = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
+    return (float)((int16_t)temp / (float)340.0 + (float)36.53);
 }

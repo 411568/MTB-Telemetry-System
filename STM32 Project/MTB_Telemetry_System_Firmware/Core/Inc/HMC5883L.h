@@ -4,10 +4,10 @@
 #define HMC5883l_ADDRESS (0x1E << 1)
 
 // CONTROL REG A
-#define HMC5883l_Enable_A (0b00011000) // 75 Hz measurement rate, no averaging, default mode
+#define HMC5883l_Enable_A 0x78//(0b00011000) // 75 Hz measurement rate, no averaging, default mode
 
 // CONTROL REG B
-#define HMC5883l_Enable_B (0b11100000)  // 230 gain
+#define HMC5883l_Enable_B 0xA0//(0b11100000)  // 230 gain
 
 // MODE REGISTER
 #define HMC5883l_MR (0x00) // continuous operating mode

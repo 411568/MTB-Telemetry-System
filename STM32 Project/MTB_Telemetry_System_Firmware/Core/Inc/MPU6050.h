@@ -9,11 +9,6 @@
 #define GYRO_XOUT_H_REG 0x43
 #define MPU6050_ADDR 0xD0
 
-/*
-#define GYRO_FS 131
-#define ACCEL_FS 16384
-#define ACCEL_FS_Z 14418
-*/
 
 // I2C handler
 I2C_HandleTypeDef hi2c1;
@@ -34,3 +29,6 @@ float MPU6050_gyro_read(uint8_t axis);
 
 // Get raw accelerometer reading
 float MPU6050_accel_read(uint8_t axis);
+
+// Read the sensor temperature
+float MPU6050_Read_Temp();

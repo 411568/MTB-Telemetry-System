@@ -121,12 +121,6 @@ int main(void)
   }
 
   HAL_TIM_Base_Start_IT(&htim4);
-  /*if(HAL_TIM_Base_Start_IT(&htim2) == HAL_OK)
-  {
-	  ST7565_clear(); // clear the display
-	  		  ST7565_drawstring(0, 0, "error!");
-	  		  ST7565_display();
-  }*/
 
   /* USER CODE END 2 */
 
@@ -134,19 +128,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  // TEST
-		  //HAL_GPIO_TogglePin(DisplayRSE_GPIO_Port, DisplayRSE_Pin);
-		 // HAL_Delay(1000);
 		  // TEST
+	  	  HAL_Delay(300);
 		  ST7565_clear(); // clear the display
-		  ST7565_drawstring(0, 0, "Hello world!");
+		//  ST7565_drawstring(0, 0, "Hello world!");
 
 
 		  // Read magnetometer data
 		  char str[10] = "";
 		  char str_temp[20] = "";
-		  uint16_t HMC_x_axis_front = HMC5883L_get_X(SENSOR_FRONT);
-		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(SENSOR_REAR);
+		  //HMC5883L_initialize();
+		  uint16_t HMC_x_axis_front = HMC5883L_get_X(1);
+		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(0);
 
 
 		  sprintf(str, "%u", HMC_x_axis_front);
@@ -182,18 +175,18 @@ int main(void)
 
 
 		  // Read accelerometer and gyroscpe
-		  float accel_x = MPU6050_accel_read(Zaxis);
+		  float accel_x = MPU6050_accel_read(Xaxis);
 		  float gyro_x = MPU6050_gyro_read(Zaxis);
 
 		  sprintf(str, "%.2f", accel_x);
 		  strcpy(str_temp, "Accel: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 1, str_temp);
+		  ST7565_drawstring(0, 6, str_temp);
 
 		  sprintf(str, "%.2f", gyro_x);
 		  strcpy(str_temp, "Gyro: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 2, str_temp);
+		  ST7565_drawstring(0, 7, str_temp);
 
 		  // Get current time
 		  HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
@@ -202,11 +195,11 @@ int main(void)
 		  sprintf(str, "%u", time.Seconds);
 		  strcpy(str_temp, "Second: ");
 		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 6, str_temp);
+		  ST7565_drawstring(0, 0, str_temp);
 
 		  // Interrupt test
 		  sprintf(str, "%u", test);
-		  ST7565_drawstring(0, 7, str);
+		//  ST7565_drawstring(0, 7, str);
 
 		  // Send data to display
 		  ST7565_display();
