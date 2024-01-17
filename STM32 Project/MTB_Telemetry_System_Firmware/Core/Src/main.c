@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "fatfs.h"
 #include "i2c.h"
 #include "rtc.h"
 #include "spi.h"
@@ -118,6 +119,7 @@ int main(void)
   MX_SPI1_Init();
   MX_SPI2_Init();
   MX_TIM4_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
   ST7565_begin(0x7); // Initialize display
@@ -158,7 +160,7 @@ int main(void)
 	  {
 	  	  HAL_Delay(100);
 		  ST7565_clear(); // clear the display
-
+/*
 		  char str[10] = "";
 		  char str_temp[20] = "";
 
@@ -188,10 +190,10 @@ int main(void)
 		  ST7565_drawbitmap(105, 15, buffer, 11, 16, BLACK);
 
 		  // Bar graph for suspension
-		 /* HMC_x_axis_front = (uint16_t)(HMC_x_axis_front / 2.3);
-		  HMC_x_axis_rear = (uint16_t)(HMC_x_axis_rear / 2.3);
-		  ST7565_fillrect(0, 35, HMC_x_axis_front, 10, BLACK);
-		  ST7565_fillrect((128-HMC_x_axis_rear), 35, HMC_x_axis_rear, 10, BLACK); */
+		  //HMC_x_axis_front = (uint16_t)(HMC_x_axis_front / 2.3);
+		  //HMC_x_axis_rear = (uint16_t)(HMC_x_axis_rear / 2.3);
+		  //ST7565_fillrect(0, 35, HMC_x_axis_front, 10, BLACK);
+		  //ST7565_fillrect((128-HMC_x_axis_rear), 35, HMC_x_axis_rear, 10, BLACK);
 
 		  // Current time
 		  ST7565_drawstring(10, 6, "TIME");
@@ -213,6 +215,42 @@ int main(void)
 		  strcpy(str_temp, "%");
 		  strcat(str, str_temp);
 		  ST7565_drawstring(105, 7, str);
+*/
+
+			//some variables for FatFs
+		  FATFS FatFs; 	//Fatfs handle
+		  FIL fil; 		//File handle
+		  FRESULT fres; //Result after operations
+
+		  //Open the file system
+		  fres = f_mount(&FatFs, "", 1);
+
+		  //Let's get some statistics from the SD card
+		  DWORD free_clusters, free_sectors, total_sectors;
+
+		  FATFS* getFreeFs;
+
+		  fres = f_getfree("", &free_clusters, &getFreeFs);
+		  //Formula comes from ChaN's documentation
+		  total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
+		  free_sectors = free_clusters * getFreeFs->csize;
+
+		  fres = f_open(&fil, "test.txt", FA_READ);
+		  BYTE readBuf[30];
+		  TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
+		  ST7565_drawstring(0, 0, rres);
+		  //Now let's try and write a file "write.txt"
+		   fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+		   //Copy in a string
+		     strncpy((char*)readBuf, "a new file is made!", 19);
+		     UINT bytesWrote;
+		     fres = f_write(&fil, readBuf, 19, &bytesWrote);
+		  f_close(&fil);
+
+		   //We're done, so de-mount the drive
+		  f_mount(NULL, "", 0);
+
+
 
 		  // Send data to display
 		  ST7565_display();
