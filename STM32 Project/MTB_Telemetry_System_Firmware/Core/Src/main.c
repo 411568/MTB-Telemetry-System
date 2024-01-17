@@ -54,7 +54,19 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint16_t HMC_x_axis_front;
+uint16_t HMC_x_axis_rear;
 
+uint16_t Brake_left;
+uint16_t Brake_right;
+
+uint8_t battery_voltage;
+
+float accel_x;
+float gyro_x;
+
+RTC_TimeTypeDef time;
+RTC_DateTypeDef date;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,7 +77,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t test = 0;
+
 /* USER CODE END 0 */
 
 /**
@@ -105,9 +117,6 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
-  RTC_TimeTypeDef time; // Create time struct
-  RTC_DateTypeDef date; // Create date struct
-
   ST7565_begin(0x7); // Initialize display
   ST7565_clear(); // Clear the display
 
@@ -133,25 +142,6 @@ int main(void)
 
 		  char str[10] = "";
 		  char str_temp[20] = "";
-
-		  // Read magnetometer data
-		  uint16_t HMC_x_axis_front = HMC5883L_get_X(1);
-		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(0);
-
-		  // Read brake sensor ADC
-		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
-		  uint16_t Brake_right = Brake_Sensor_Read(SENSOR_RIGHT);
-
-		  // Read battery voltage
-		  uint8_t battery_voltage = Read_Battery_Voltage();
-
-		  // Read accelerometer and gyroscpe
-		  //float accel_x = MPU6050_accel_read(Xaxis);
-		  //float gyro_x = MPU6050_gyro_read(Zaxis);
-
-		  // Get current time
-		  HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
-		  HAL_RTC_GetDate(&hrtc, &date, RTC_FORMAT_BIN);
 
 		  // Brake lever bar graph
 		  Brake_left = (uint16_t)(Brake_left / 2.3);
@@ -199,9 +189,9 @@ int main(void)
 		  strcat(str, str_temp);
 		  ST7565_drawstring(105, 7, str);
 
-
 		  // Send data to display
 		  ST7565_display();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -252,21 +242,49 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 // Timer interrupt
+// On every timer interrupt read the current sensor states and write to SD card
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   // Check which version of the timer triggered this callback
   if (htim == &htim4)
   {
-	  if (test == 0)
-	  {
-		  test = 1;
-	  }
-	  else
-	  {
-		  test = 0;
-	  }
+	  // Read magnetometer data
+	  HMC_x_axis_front = HMC5883L_get_X(1);
+	  HMC_x_axis_rear = HMC5883L_get_X(0);
+
+	  // Read brake sensor ADC
+	  Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
+	  Brake_right = Brake_Sensor_Read(SENSOR_RIGHT);
+
+	  // Read battery voltage
+	  battery_voltage = Read_Battery_Voltage();
+
+	  // Read accelerometer and gyroscpe
+	  //float accel_x = MPU6050_accel_read(Xaxis);
+	  //float gyro_x = MPU6050_gyro_read(Zaxis);
+
+	  // Get current time
+	  HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
+	  HAL_RTC_GetDate(&hrtc, &date, RTC_FORMAT_BIN);
+
+	  // Write to SD card
+	  // TODO
   }
 }
+
+
+// Button interrupt
+// Disables all interrupts, stops main loop, shows basic menu
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	// Check the interrupt source
+    if(GPIO_Pin == SW1_Pin)
+    {
+    	;
+    }
+}
+
+
 /* USER CODE END 4 */
 
 /**
