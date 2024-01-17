@@ -73,6 +73,7 @@ void Error_Handler(void);
 #define SDCS_GPIO_Port GPIOB
 #define SW1_Pin GPIO_PIN_10
 #define SW1_GPIO_Port GPIOA
+#define SW1_EXTI_IRQn EXTI15_10_IRQn
 #define SW2_Pin GPIO_PIN_11
 #define SW2_GPIO_Port GPIOA
 #define SW3_Pin GPIO_PIN_12

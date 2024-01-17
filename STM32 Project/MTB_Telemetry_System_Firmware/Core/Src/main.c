@@ -128,78 +128,77 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		  // TEST
-	  	  HAL_Delay(300);
+	  	  HAL_Delay(100);
 		  ST7565_clear(); // clear the display
-		//  ST7565_drawstring(0, 0, "Hello world!");
 
-
-		  // Read magnetometer data
 		  char str[10] = "";
 		  char str_temp[20] = "";
-		  //HMC5883L_initialize();
+
+		  // Read magnetometer data
 		  uint16_t HMC_x_axis_front = HMC5883L_get_X(1);
 		  uint16_t HMC_x_axis_rear = HMC5883L_get_X(0);
-
-
-		  sprintf(str, "%u", HMC_x_axis_front);
-		  strcpy(str_temp, "Travel front: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 1, str_temp);
-
-		  sprintf(str, "%u", HMC_x_axis_rear);
-		  strcpy(str_temp, "Travel rear: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 2, str_temp);
 
 		  // Read brake sensor ADC
 		  uint16_t Brake_left = Brake_Sensor_Read(SENSOR_LEFT);
 		  uint16_t Brake_right = Brake_Sensor_Read(SENSOR_RIGHT);
 
-		  sprintf(str, "%u", Brake_left);
-		  strcpy(str_temp, "Brake left: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 3, str_temp);
-
-		  sprintf(str, "%u", Brake_right);
-		  strcpy(str_temp, "Brake right: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 4, str_temp);
-
 		  // Read battery voltage
 		  uint8_t battery_voltage = Read_Battery_Voltage();
-		  sprintf(str, "%u", battery_voltage);
-		  strcpy(str_temp, "Battery percent: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 5, str_temp);
-
 
 		  // Read accelerometer and gyroscpe
-		  float accel_x = MPU6050_accel_read(Xaxis);
-		  float gyro_x = MPU6050_gyro_read(Zaxis);
-
-		  sprintf(str, "%.2f", accel_x);
-		  strcpy(str_temp, "Accel: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 6, str_temp);
-
-		  sprintf(str, "%.2f", gyro_x);
-		  strcpy(str_temp, "Gyro: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 7, str_temp);
+		  //float accel_x = MPU6050_accel_read(Xaxis);
+		  //float gyro_x = MPU6050_gyro_read(Zaxis);
 
 		  // Get current time
 		  HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
 		  HAL_RTC_GetDate(&hrtc, &date, RTC_FORMAT_BIN);
 
-		  sprintf(str, "%u", time.Seconds);
-		  strcpy(str_temp, "Second: ");
-		  strcat(str_temp, str);
-		  ST7565_drawstring(0, 0, str_temp);
+		  // Brake lever bar graph
+		  Brake_left = (uint16_t)(Brake_left / 2.3);
+		  Brake_right = (uint16_t)(Brake_right / 2.3);
+		  ST7565_fillrect(0, 0, Brake_left, 10, BLACK);
+		  ST7565_fillrect((128-Brake_right), 0, Brake_right, 10, BLACK);
+		  ST7565_drawstring(50, 0, "BRAKE");
 
-		  // Interrupt test
-		  sprintf(str, "%u", test);
-		//  ST7565_drawstring(0, 7, str);
+		  // Suspension percent
+		  ST7565_drawstring(48, 2, "TRAVEL");
+		  uint8_t suspension_front_1 = HMC_x_axis_front % 10;
+		  uint8_t suspension_front_10 = HMC_x_axis_front / 10;
+		  uint8_t suspension_rear_1 = HMC_x_axis_rear % 10;
+		  uint8_t suspension_rear_10 = HMC_x_axis_rear / 10;
+		  uint8_t buffer[22];
+
+		  ST7565_get_big_font_bmp(suspension_front_10, buffer);
+		  ST7565_drawbitmap(10, 15, buffer, 11, 16, BLACK);
+		  ST7565_get_big_font_bmp(suspension_front_1, buffer);
+		  ST7565_drawbitmap(25, 15, buffer, 11, 16, BLACK);
+
+		  ST7565_get_big_font_bmp(suspension_rear_10, buffer);
+		  ST7565_drawbitmap(90, 15, buffer, 11, 16, BLACK);
+		  ST7565_get_big_font_bmp(suspension_rear_1, buffer);
+		  ST7565_drawbitmap(105, 15, buffer, 11, 16, BLACK);
+
+		  // Current time
+		  ST7565_drawstring(10, 6, "TIME");
+		  sprintf(str, "%02u", time.Hours);
+		  strcat(str_temp, str);
+		  strcpy(str, ":");
+		  strcat(str_temp, str);
+		  sprintf(str, "%02u", time.Minutes);
+		  strcat(str_temp, str);
+		  strcpy(str, ":");
+		  strcat(str_temp, str);
+		  sprintf(str, "%02u", time.Seconds);
+		  strcat(str_temp, str);
+		  ST7565_drawstring(0, 7, str_temp);
+
+		  // Battery %
+		  ST7565_drawstring(95, 6, "BATT");
+		  sprintf(str, "%u", battery_voltage);
+		  strcpy(str_temp, "%");
+		  strcat(str, str_temp);
+		  ST7565_drawstring(105, 7, str);
+
 
 		  // Send data to display
 		  ST7565_display();
