@@ -187,6 +187,12 @@ int main(void)
 		  ST7565_get_big_font_bmp(suspension_rear_1, buffer);
 		  ST7565_drawbitmap(105, 15, buffer, 11, 16, BLACK);
 
+		  // Bar graph for suspension
+		 /* HMC_x_axis_front = (uint16_t)(HMC_x_axis_front / 2.3);
+		  HMC_x_axis_rear = (uint16_t)(HMC_x_axis_rear / 2.3);
+		  ST7565_fillrect(0, 35, HMC_x_axis_front, 10, BLACK);
+		  ST7565_fillrect((128-HMC_x_axis_rear), 35, HMC_x_axis_rear, 10, BLACK); */
+
 		  // Current time
 		  ST7565_drawstring(10, 6, "TIME");
 		  sprintf(str, "%02u", time.Hours);

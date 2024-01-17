@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0001bce6  00000000  00000000  00040340  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0001a4ab  00000000  00000000  0005c026  2**0
+ 17 .debug_line   0001a4ad  00000000  00000000  0005c026  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000a2dc2  00000000  00000000  000764d1  2**0
+ 18 .debug_str    000a2dc2  00000000  00000000  000764d3  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  00119293  2**0
+ 19 .comment      00000053  00000000  00000000  00119295  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00006118  00000000  00000000  001192e8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -3777,6 +3777,9 @@ int main(void)
  8001eec:	210f      	movs	r1, #15
  8001eee:	2069      	movs	r0, #105	; 0x69
  8001ef0:	f7ff fa14 	bl	800131c <ST7565_drawbitmap>
+		  HMC_x_axis_rear = (uint16_t)(HMC_x_axis_rear / 2.3);
+		  ST7565_fillrect(0, 35, HMC_x_axis_front, 10, BLACK);
+		  ST7565_fillrect((128-HMC_x_axis_rear), 35, HMC_x_axis_rear, 10, BLACK); */
 
 		  // Current time
 		  ST7565_drawstring(10, 6, "TIME");
@@ -4501,8 +4504,8 @@ void enterMenu()
  800239c:	2b00      	cmp	r3, #0
  800239e:	d118      	bne.n	80023d2 <enterMenu+0x102>
 		{
-			HAL_Delay(50);
- 80023a0:	2032      	movs	r0, #50	; 0x32
+			HAL_Delay(100);
+ 80023a0:	2064      	movs	r0, #100	; 0x64
  80023a2:	f000 fd65 	bl	8002e70 <HAL_Delay>
 			if (HAL_GPIO_ReadPin(SW2_GPIO_Port, SW2_Pin) == GPIO_PIN_RESET)
  80023a6:	f44f 6100 	mov.w	r1, #2048	; 0x800
@@ -4540,8 +4543,8 @@ void enterMenu()
  80023de:	2b00      	cmp	r3, #0
  80023e0:	d118      	bne.n	8002414 <enterMenu+0x144>
 		{
-			HAL_Delay(50);
- 80023e2:	2032      	movs	r0, #50	; 0x32
+			HAL_Delay(100);
+ 80023e2:	2064      	movs	r0, #100	; 0x64
  80023e4:	f000 fd44 	bl	8002e70 <HAL_Delay>
 			if (HAL_GPIO_ReadPin(SW3_GPIO_Port, SW3_Pin) == GPIO_PIN_RESET)
  80023e8:	f44f 5180 	mov.w	r1, #4096	; 0x1000
@@ -4602,12 +4605,12 @@ void enterMenu()
  800244a:	f897 3067 	ldrb.w	r3, [r7, #103]	; 0x67
  800244e:	2b02      	cmp	r3, #2
  8002450:	d009      	beq.n	8002466 <enterMenu+0x196>
-					;//setup_brakes();
+					;//setup_brakes(); TODO
 				else if (cursor_position == 1)
  8002452:	f897 3067 	ldrb.w	r3, [r7, #103]	; 0x67
  8002456:	2b01      	cmp	r3, #1
  8002458:	d005      	beq.n	8002466 <enterMenu+0x196>
-					;//setup_suspension();
+					;//setup_suspension(); TODO
 				else if (cursor_position == 0)
  800245a:	f897 3067 	ldrb.w	r3, [r7, #103]	; 0x67
  800245e:	2b00      	cmp	r3, #0
