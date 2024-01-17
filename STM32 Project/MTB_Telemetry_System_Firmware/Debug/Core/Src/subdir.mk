@@ -16,6 +16,7 @@ C_SRCS += \
 ../Core/Src/i2c.c \
 ../Core/Src/main.c \
 ../Core/Src/rtc.c \
+../Core/Src/setup_menu.c \
 ../Core/Src/spi.c \
 ../Core/Src/stm32f4xx_hal_msp.c \
 ../Core/Src/stm32f4xx_it.c \
@@ -36,6 +37,7 @@ OBJS += \
 ./Core/Src/i2c.o \
 ./Core/Src/main.o \
 ./Core/Src/rtc.o \
+./Core/Src/setup_menu.o \
 ./Core/Src/spi.o \
 ./Core/Src/stm32f4xx_hal_msp.o \
 ./Core/Src/stm32f4xx_it.o \
@@ -56,6 +58,7 @@ C_DEPS += \
 ./Core/Src/i2c.d \
 ./Core/Src/main.d \
 ./Core/Src/rtc.d \
+./Core/Src/setup_menu.d \
 ./Core/Src/spi.d \
 ./Core/Src/stm32f4xx_hal_msp.d \
 ./Core/Src/stm32f4xx_it.d \
@@ -72,7 +75,7 @@ Core/Src/%.o: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/BrakeSensors.d ./Core/Src/BrakeSensors.o ./Core/Src/HMC5883L.d ./Core/Src/HMC5883L.o ./Core/Src/MPU6050.d ./Core/Src/MPU6050.o ./Core/Src/MiscellaneousFunctions.d ./Core/Src/MiscellaneousFunctions.o ./Core/Src/ST7565.d ./Core/Src/ST7565.o ./Core/Src/adc.d ./Core/Src/adc.o ./Core/Src/glcdfont.d ./Core/Src/glcdfont.o ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/rtc.d ./Core/Src/rtc.o ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/tim.d ./Core/Src/tim.o
+	-$(RM) ./Core/Src/BrakeSensors.d ./Core/Src/BrakeSensors.o ./Core/Src/HMC5883L.d ./Core/Src/HMC5883L.o ./Core/Src/MPU6050.d ./Core/Src/MPU6050.o ./Core/Src/MiscellaneousFunctions.d ./Core/Src/MiscellaneousFunctions.o ./Core/Src/ST7565.d ./Core/Src/ST7565.o ./Core/Src/adc.d ./Core/Src/adc.o ./Core/Src/glcdfont.d ./Core/Src/glcdfont.o ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/rtc.d ./Core/Src/rtc.o ./Core/Src/setup_menu.d ./Core/Src/setup_menu.o ./Core/Src/spi.d ./Core/Src/spi.o ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/tim.d ./Core/Src/tim.o
 
 .PHONY: clean-Core-2f-Src
 

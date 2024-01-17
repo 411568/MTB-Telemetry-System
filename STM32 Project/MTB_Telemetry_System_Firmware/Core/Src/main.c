@@ -35,6 +35,7 @@
 #include <string.h>
 #include "MPU6050.h"
 #include "stm32f4xx_hal_rtc.h"
+#include "setup_menu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,6 +68,8 @@ float gyro_x;
 
 RTC_TimeTypeDef time;
 RTC_DateTypeDef date;
+
+uint8_t button_pressed = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -137,6 +140,22 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if (button_pressed == 1)
+	  {
+		  // Disable button interrupt so that it does not interfere with our menu
+		  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
+
+		  // Go into the menu display function in file setup_menu.c
+		  enterMenu();
+
+		  HAL_Delay(200);
+		  __HAL_GPIO_EXTI_CLEAR_IT(SW1_Pin); // clear interrupts
+		  button_pressed = 0;
+
+		  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+	  }
+	  else
+	  {
 	  	  HAL_Delay(100);
 		  ST7565_clear(); // clear the display
 
@@ -191,7 +210,7 @@ int main(void)
 
 		  // Send data to display
 		  ST7565_display();
-
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -280,7 +299,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	// Check the interrupt source
     if(GPIO_Pin == SW1_Pin)
     {
-    	;
+    	button_pressed = 1;
     }
 }
 
