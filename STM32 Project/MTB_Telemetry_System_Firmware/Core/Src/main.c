@@ -71,6 +71,11 @@ RTC_TimeTypeDef time;
 RTC_DateTypeDef date;
 
 uint8_t button_pressed = 0;
+
+// SD CARD
+FATFS FatFs;
+FIL fil;
+BYTE buffer[30];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,6 +127,8 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_NVIC_DisableIRQ(TIM4_IRQn);
+
   ST7565_begin(0x7); // Initialize display
   ST7565_clear(); // Clear the display
 
@@ -135,6 +142,12 @@ int main(void)
   }
 
   HAL_TIM_Base_Start_IT(&htim4);
+
+  //SD CARD
+  HAL_Delay(2000);
+  f_mount(&FatFs, "", 1); // open file system
+
+  HAL_NVIC_EnableIRQ(TIM4_IRQn);
 
   /* USER CODE END 2 */
 
@@ -160,7 +173,7 @@ int main(void)
 	  {
 	  	  HAL_Delay(100);
 		  ST7565_clear(); // clear the display
-/*
+
 		  char str[10] = "";
 		  char str_temp[20] = "";
 
@@ -215,42 +228,6 @@ int main(void)
 		  strcpy(str_temp, "%");
 		  strcat(str, str_temp);
 		  ST7565_drawstring(105, 7, str);
-*/
-
-			//some variables for FatFs
-		  FATFS FatFs; 	//Fatfs handle
-		  FIL fil; 		//File handle
-		  FRESULT fres; //Result after operations
-
-		  //Open the file system
-		  fres = f_mount(&FatFs, "", 1);
-
-		  //Let's get some statistics from the SD card
-		  DWORD free_clusters, free_sectors, total_sectors;
-
-		  FATFS* getFreeFs;
-
-		  fres = f_getfree("", &free_clusters, &getFreeFs);
-		  //Formula comes from ChaN's documentation
-		  total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
-		  free_sectors = free_clusters * getFreeFs->csize;
-
-		  fres = f_open(&fil, "test.txt", FA_READ);
-		  BYTE readBuf[30];
-		  TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
-		  ST7565_drawstring(0, 0, rres);
-		  //Now let's try and write a file "write.txt"
-		   fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
-		   //Copy in a string
-		     strncpy((char*)readBuf, "a new file is made!", 19);
-		     UINT bytesWrote;
-		     fres = f_write(&fil, readBuf, 19, &bytesWrote);
-		  f_close(&fil);
-
-		   //We're done, so de-mount the drive
-		  f_mount(NULL, "", 0);
-
-
 
 		  // Send data to display
 		  ST7565_display();
@@ -330,8 +307,46 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
 	  HAL_RTC_GetDate(&hrtc, &date, RTC_FORMAT_BIN);
 
-	  // Write to SD card
-	  // TODO
+
+	  // WRITE TO SD CARD
+
+	  // Copy all sensor data to string
+	  char str_temp[20] = "";
+	  char str[20] = "";
+	  memset(str, '\0', sizeof(str));
+	  memset(str_temp, '\0', sizeof(str_temp));
+
+	  // time
+	  sprintf(str_temp, "%02u", time.Hours);
+	  strcat(str, str_temp);
+	  sprintf(str_temp, "%02u", time.Minutes);
+	  strcat(str, str_temp);
+	  sprintf(str_temp, "%02u", time.Seconds);
+	  strcat(str, str_temp);
+	  strcat(str, ";");
+
+	  // suspension
+	  sprintf(str_temp, "%02u", HMC_x_axis_front);
+	  strcat(str, str_temp);
+	  strcat(str, ";");
+	  sprintf(str_temp, "%02u", HMC_x_axis_rear);
+	  strcat(str, str_temp);
+	  strcat(str, ";");
+
+	  // brakes
+	  sprintf(str_temp, "%02u", Brake_left);
+	  strcat(str, str_temp);
+	  strcat(str, ";");
+	  sprintf(str_temp, "%02u", Brake_right);
+	  strcat(str, str_temp);
+	  strcat(str, "\n");
+
+	  // Write string onto SD
+	  strncpy((char*)buffer, str, strlen(str));
+	  UINT bytesWrote;
+	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
+	  f_write(&fil, buffer, strlen(str), &bytesWrote); // Write to file
+	  f_close(&fil); // Close the file
   }
 }
 
