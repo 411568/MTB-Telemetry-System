@@ -10,3 +10,4 @@ The project is based on a STM32F401 microcontroller. The data is displayed on a 
 
 # Author
 Krzysztof Sikora
+Bartosz Pniak
