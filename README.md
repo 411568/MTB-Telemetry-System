@@ -1,15 +1,24 @@
 <p align="center"><img src="https://socialify.git.ci/411568/MTB-Telemetry-System/image?description=1&amp;font=Jost&amp;language=1&amp;name=1&amp;pattern=Circuit%20Board&amp;theme=Dark" alt="project-image"></p>
 
-<p id="description">The MTB Telemetry System was created as a university project. It allows the user to log the basic data such as suspension travel brake lever position acceleration/deceleration corner lean using a microSD card.</p>
+<p id="description">The MTB Telemetry System was created as a university project. It allows the user to log the basic data such as suspension travel brake lever position acceleration/deceleration corner lean using a microSD card. Please note that the project is still in development.</p>
 
 <h2>🚀 Demo</h2>
 
-[video 1](video 1)
+Work in progres...
 
 <h2>Project Screenshots:</h2>
 
-![alt text](http://url/to/img.png)
-  
+Display after startup:
+
+<img src="/Images/display_image.jpg" width="500">
+
+The produced PCB:
+
+<img src="/Images/pcb_image.jpg" width="500">
+
+Case 3D mode:
+
+<img src="/Images/case_model_image.PNG" width="500">
   
 <h2>🧐 Features</h2>
 
