@@ -1,5 +1,3 @@
-<h1 align="center" id="title">MTB Telemetry System</h1>
-
 <p align="center"><img src="https://socialify.git.ci/411568/MTB-Telemetry-System/image?description=1&amp;font=Jost&amp;language=1&amp;name=1&amp;pattern=Circuit%20Board&amp;theme=Dark" alt="project-image"></p>
 
 <p id="description">The MTB Telemetry System was created as a university project. It allows the user to log the basic data such as suspension travel brake lever position acceleration/deceleration corner lean using a microSD card.</p>
@@ -10,8 +8,7 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="asd" alt="project-screenshot" width="400" height="400/">
-
+![alt text](http://url/to/img.png)
   
   
 <h2>🧐 Features</h2>
@@ -26,9 +23,6 @@ Here're some of the project's best features:
 *   3D printed steering wheel mount
 *   Compact-sized 4-layer PCB design
 
-<h2>🛠️ Installation Steps:</h2>
-
-  
   
 <h2>💻 Built with</h2>
 
