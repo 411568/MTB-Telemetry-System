@@ -146,7 +146,7 @@ int main(void)
   //SD CARD
   HAL_Delay(2000);
   f_mount(&FatFs, "", 1); // open file system
-
+  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
   HAL_NVIC_EnableIRQ(TIM4_IRQn);
 
   /* USER CODE END 2 */
@@ -160,6 +160,9 @@ int main(void)
 		  // Disable button interrupt so that it does not interfere with our menu
 		  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
 
+		  // FOR TESTING ONLY
+		  f_close(&fil);
+
 		  // Go into the menu display function in file setup_menu.c
 		  enterMenu();
 
@@ -171,7 +174,7 @@ int main(void)
 	  }
 	  else
 	  {
-	  	  HAL_Delay(100);
+	  	  //HAL_Delay(100);
 		  ST7565_clear(); // clear the display
 
 		  char str[10] = "";
@@ -344,9 +347,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  // Write string onto SD
 	  strncpy((char*)buffer, str, strlen(str));
 	  UINT bytesWrote;
-	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
+	  //f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
 	  f_write(&fil, buffer, strlen(str), &bytesWrote); // Write to file
-	  f_close(&fil); // Close the file
+	  //f_close(&fil); // Close the file
   }
 }
 
