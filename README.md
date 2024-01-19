@@ -8,10 +8,13 @@
 
 <h2>Project Screenshots:</h2>
 
-![alt text](/Images/case_model_image.png)
+Display after startup:
+<img src="/Images/display_image.jpg" width="500">
 
-<img src="/Images/display_image.jgp" width="500">
+The produced PCB:
 <img src="/Images/pcb_image.jpg" width="500">
+
+Case 3D mode:
 <img src="/Images/case_model_image.PNG" width="500">
   
 <h2>🧐 Features</h2>
