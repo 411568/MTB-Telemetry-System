@@ -10,9 +10,9 @@
 
 ![alt text](/Images/case_model_image.png)
 
-<img src="/Images/display_image.png" width="500">
-<img src="/Images/pcb_image.png" width="500">
-<img src="/Images/case_model_image.png" width="500">
+<img src="/Images/display_image.jgp" width="500">
+<img src="/Images/pcb_image.jpg" width="500">
+<img src="/Images/case_model_image.PNG" width="500">
   
 <h2>🧐 Features</h2>
 
