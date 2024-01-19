@@ -1,0 +1,4 @@
+Record=TopLevelDocument|FileName=Peripherals.SchDoc|SheetNumber=4
+Record=NoMainPathDocument|SourceDocument=Peripherals.SchDoc|FileName=Power supply.SchDoc|SheetNumber=2
+Record=NoMainPathDocument|SourceDocument=Peripherals.SchDoc|FileName=Sensors.SchDoc|SheetNumber=3
+Record=NoMainPathDocument|SourceDocument=Peripherals.SchDoc|FileName=STM32F401.SchDoc|SheetNumber=1

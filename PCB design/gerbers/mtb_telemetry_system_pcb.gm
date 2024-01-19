@@ -1,0 +1,15 @@
+%FSLAX23Y23*%
+%MOIN*%
+%SFA1B1*%
+
+%IPPOS*%
+%ADD97C,0.001000*%
+%LNmtb_telemetry_system_pcb-1*%
+%LPD*%
+G54D97*
+X3818Y4532D02*
+X6338D01*
+Y1929*
+X3818*
+Y4532*
+M02*
