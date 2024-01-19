@@ -1,13 +1,56 @@
-# MTB Telemetry System
+<h1 align="center" id="title">MTB Telemetry System</h1>
 
-Mountain bike telemetry system, including the following sensors:
-* Fork and shock travel using 3-axis magnetometers
-* Gyroscope and accelerometer
-* Brake sensors (work in progress)
+<p align="center"><img src="https://socialify.git.ci/411568/MTB-Telemetry-System/image?description=1&amp;font=Jost&amp;language=1&amp;name=1&amp;pattern=Circuit%20Board&amp;theme=Dark" alt="project-image"></p>
 
-The project is based on a STM32F401 microcontroller. The data is displayed on a LCD display and logged onto a microSD card.
+<p id="description">The MTB Telemetry System was created as a university project. It allows the user to log the basic data such as suspension travel brake lever position acceleration/deceleration corner lean using a microSD card.</p>
+
+<h2>🚀 Demo</h2>
+
+[video 1](video 1)
+
+<h2>Project Screenshots:</h2>
+
+<img src="asd" alt="project-screenshot" width="400" height="400/">
+
+  
+  
+<h2>🧐 Features</h2>
+
+Here're some of the project's best features:
+
+*   Suspension travel measurement
+*   Brake lever position measurement
+*   SD card logging
+*   128x64 display
+*   RTC for accurate time measurement
+*   3D printed steering wheel mount
+*   Compact-sized 4-layer PCB design
+
+<h2>🛠️ Installation Steps:</h2>
+
+  
+  
+<h2>💻 Built with</h2>
+
+Technologies used in the project:
+
+*   STM32F401CCU6 microcontroller
+*   MPU6050 accelerometer/gyroscope
+*   HMC5883 magnetometers
+*   3D printed case and mount
+*   M12 cabling for reduced noise
+
+<h2>🛡️ License:</h2>
+
+This project is licensed under the MIT License.
 
 
-# Author
-Krzysztof Sikora
-Bartosz Pniak
+<h2> 🙋‍♂️Authors </h2>
+
+Currently Electronics Engineering students at AGH University of Krakow, Poland:
+- Krzysztof Sikora
+- Bartosz Pniak
+
+<h2>💖Like my work?</h2>
+
+If you have any questions about the project feel free to contact us via email: krzysieksikora717@gmail.com
