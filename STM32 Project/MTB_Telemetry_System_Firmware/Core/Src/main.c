@@ -132,19 +132,27 @@ int main(void)
   ST7565_begin(0x7); // Initialize display
   ST7565_clear(); // Clear the display
 
-  HMC5883L_initialize(); // Initialize magnetometers
 
-  uint8_t check = MPU6050_initialize(); // Initialize MPU6050
 
-  if (check == 1)
+  uint8_t MPU_check = MPU6050_initialize(); // Initialize MPU6050
+
+  if (MPU_check == 1)
   {
-	  Error_Handler();
+	  My_Error_Handler(MPU_Error);
+  }
+
+  uint8_t HMC_check = HMC5883L_initialize(); // Initialize magnetometers
+
+  if (HMC_check == 1)
+  {
+	  My_Error_Handler(HMC_Error);
   }
 
   HAL_TIM_Base_Start_IT(&htim4);
 
   //SD CARD
   HAL_Delay(2000);
+
   f_mount(&FatFs, "", 1); // open file system
   f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
   HAL_NVIC_EnableIRQ(TIM4_IRQn);
@@ -382,6 +390,46 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
+void My_Error_Handler(uint8_t error)
+{
+	__disable_irq();
+	while (1)
+	{
+
+
+		char str[50] = "";
+		char str_temp[20] = "";
+		ST7565_clear(); // clear the display
+		if (error == 1){
+			strcpy(str_temp, "MAGNETIC");
+			strcat(str, str_temp);
+		}else{
+			strcpy(str_temp, "ACCELEROMETER");
+		}
+		strcpy(str_temp, " ");
+		strcat(str, str_temp);
+		strcpy(str_temp, "SENSOR");
+		strcpy(str_temp, " ");
+		strcat(str, str_temp);
+		strcpy(str_temp, "ERROR");
+		strcat(str, str_temp);
+		ST7565_drawstring(40, 0, str_temp);
+
+		ST7565_display();
+
+		if(HAL_GPIO_ReadPin(SW1_GPIO_Port, SW1_Pin) == 1)
+		{
+			__enable_irq();
+			break;
+		}
+
+	}
+
+
+}
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**

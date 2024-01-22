@@ -42,6 +42,7 @@ float MPU6050_gyro_read(uint8_t axis)
 {
 	uint8_t raw_data[6];
 
+
 	// Read raw data from register
 	HAL_I2C_Mem_Read(&handler_MPU6050, MPU6050_ADDR, GYRO_XOUT_H_REG, 1, raw_data, 6, 1000);
 
@@ -59,6 +60,7 @@ float MPU6050_gyro_read(uint8_t axis)
 	}
 	else
 	{
+
 		return 999; // wrong input
 	}
 }
@@ -100,3 +102,5 @@ float MPU6050_Read_Temp()
     temp = (int16_t)(Rec_Data[0] << 8 | Rec_Data[1]);
     return (float)((int16_t)temp / (float)340.0 + (float)36.53);
 }
+
+

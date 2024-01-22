@@ -1,0 +1,2 @@
+../Core/Src/MiscellaneousFunctions.c:4:6:ADC_SetActiveChannel	2
+../Core/Src/MiscellaneousFunctions.c:17:9:Read_Battery_Voltage	3

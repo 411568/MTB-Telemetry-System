@@ -1,20 +1,37 @@
 #include "HMC5883L.h"
 
-void HMC5883L_initialize(void)
+uint8_t HMC5883L_initialize (void)
 {
 	uint8_t RegSettingA = HMC5883l_Enable_A;
 	uint8_t RegSettingB = HMC5883l_Enable_B;
 	uint8_t RegSettingMR = HMC5883l_MR;
+	uint8_t check = 0;
 
+	if (HAL_I2C_Init(&handler_1_HMC) != HAL_OK)
+	{
+		check = 1;
+	}else
+	{
 	// Sensor 1
-	HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
-	HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
-	HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
+		HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
+		HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
+		HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
 
+		check = 0;
+	}
+	if (HAL_I2C_Init(&handler_2_HMC) != HAL_OK)
+	{
+		check = 1;
+	}else
+	{
 	// Sensor 2
-	HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
-	HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
-	HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
+		HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
+		HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
+		HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
+		check = 0;
+	}
+
+	return check;
 }
 
 uint16_t HMC5883L_get_X(uint8_t sensor)
@@ -91,6 +108,8 @@ uint16_t HMC5883L_get_Z(uint8_t sensor)
 	Zaxis = ((DataZ[1]<<8) | DataZ[0]);
 	return Zaxis / 655;
 }
+
+
 
 
 

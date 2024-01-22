@@ -41,7 +41,7 @@ I2C_HandleTypeDef hi2c2; // Rear sensor
 
 
 // Initialize the device - same settings for both sensors
-void HMC5883L_initialize(void);
+uint8_t HMC5883L_initialize(void);
 
 // Get the X axis data
 uint16_t HMC5883L_get_X(uint8_t sensor);

@@ -86,6 +86,8 @@ void Error_Handler(void);
 #define MPU6050INT_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 #define SD_SPI_HANDLE hspi2 // define the SPI handle for SD card
+#define MPU_Error 1
+#define HMC_Error 2
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
