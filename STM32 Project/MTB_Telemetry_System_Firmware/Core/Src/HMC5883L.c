@@ -10,24 +10,25 @@ uint8_t HMC5883L_initialize (void)
 	if (HAL_I2C_Init(&handler_1_HMC) != HAL_OK)
 	{
 		check = 1;
-	}else
-	{
-	// Sensor 1
-		HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
-		HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
-		HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
-
-		check = 0;
 	}
+	else
+	{
+		// Sensor 1
+		check = HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
+		check = HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
+		check = HAL_I2C_Mem_Write(&handler_1_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
+	}
+
 	if (HAL_I2C_Init(&handler_2_HMC) != HAL_OK)
 	{
 		check = 1;
-	}else
+	}
+	else
 	{
-	// Sensor 2
-		HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
-		HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
-		HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
+		// Sensor 2
+		check = HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x00 , 1, &RegSettingA , 1, 100);
+		check = HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x01 , 1, &RegSettingB , 1, 100);
+		check = HAL_I2C_Mem_Write(&handler_2_HMC, HMC5883l_ADDRESS, 0x02 , 1, &RegSettingMR , 1, 100);
 		check = 0;
 	}
 
@@ -48,10 +49,8 @@ uint16_t HMC5883L_get_X(uint8_t sensor)
 		HAL_I2C_Mem_Read(&handler_1_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAY_MSB_MULTI,1,temp,2,100);
 		HAL_I2C_Mem_Read(&handler_1_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAZ_MSB_MULTI,1,temp,2,100);
 	}
-	//	HAL_I2C_Mem_Read(&handler_1_HMC, HMC5883l_ADDRESS, HMC5883l_ADD_DATAX_MSB_MULTI, 1, DataX, 2, 100);
 	else
 	{
-		//HAL_I2C_Mem_Read(&handler_2_HMC, HMC5883l_ADDRESS, HMC5883l_ADD_DATAX_MSB_MULTI, 1, DataX, 2, 100);
 		HAL_I2C_Mem_Read(&handler_2_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAX_MSB_MULTI,1,DataX,2,100);
 		HAL_I2C_Mem_Read(&handler_2_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAY_MSB_MULTI,1,temp,2,100);
 		HAL_I2C_Mem_Read(&handler_2_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAZ_MSB_MULTI,1,temp,2,100);

@@ -13,3 +13,7 @@ void ADC_SetActiveChannel(ADC_HandleTypeDef *hadc, uint32_t AdcChannel);
 
 // Read battery voltage from ADC
 uint8_t Read_Battery_Voltage();
+
+
+//Our version of error handler displaying error data on screen
+void My_Error_Handler(uint8_t error);

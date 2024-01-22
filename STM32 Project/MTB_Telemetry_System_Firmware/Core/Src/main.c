@@ -373,7 +373,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     }
 }
 
-
 /* USER CODE END 4 */
 
 /**
@@ -391,43 +390,6 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-void My_Error_Handler(uint8_t error)
-{
-	__disable_irq();
-	while (1)
-	{
-
-
-		char str[50] = "";
-		char str_temp[20] = "";
-		ST7565_clear(); // clear the display
-		if (error == 1){
-			strcpy(str_temp, "MAGNETIC");
-			strcat(str, str_temp);
-		}else{
-			strcpy(str_temp, "ACCELEROMETER");
-		}
-		strcpy(str_temp, " ");
-		strcat(str, str_temp);
-		strcpy(str_temp, "SENSOR");
-		strcpy(str_temp, " ");
-		strcat(str, str_temp);
-		strcpy(str_temp, "ERROR");
-		strcat(str, str_temp);
-		ST7565_drawstring(40, 0, str_temp);
-
-		ST7565_display();
-
-		if(HAL_GPIO_ReadPin(SW1_GPIO_Port, SW1_Pin) == 1)
-		{
-			__enable_irq();
-			break;
-		}
-
-	}
-
-
-}
 
 
 
