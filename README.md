@@ -4,7 +4,7 @@
 
 <h2>🚀 Demo</h2>
 
-Work in progres...
+[![YouTube Video](https://img.youtube.com/vi/BUv2JN2CNbw/0.jpg)](https://youtu.be/BUv2JN2CNbw?si=anFV0qEeb7ObIdo9 "MTB Telemetry System")
 
 <h2>Project Screenshots:</h2>
 
