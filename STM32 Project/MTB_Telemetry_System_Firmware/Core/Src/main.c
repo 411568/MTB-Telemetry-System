@@ -125,13 +125,14 @@ int main(void)
   MX_SPI2_Init();
   MX_TIM4_Init();
   MX_FATFS_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_NVIC_DisableIRQ(TIM4_IRQn);
+  HAL_NVIC_DisableIRQ(TIM5_IRQn);
 
   ST7565_begin(0x7); // Initialize display
   ST7565_clear(); // Clear the display
-
 
 
   uint8_t MPU_check = MPU6050_initialize(); // Initialize MPU6050
@@ -149,6 +150,7 @@ int main(void)
   }
 
   HAL_TIM_Base_Start_IT(&htim4);
+  HAL_TIM_Base_Start_IT(&htim5);
 
   //SD CARD
   HAL_Delay(2000);
@@ -156,6 +158,7 @@ int main(void)
   f_mount(&FatFs, "", 1); // open file system
   f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
   HAL_NVIC_EnableIRQ(TIM4_IRQn);
+  HAL_NVIC_EnableIRQ(TIM5_IRQn);
 
   /* USER CODE END 2 */
 
@@ -168,7 +171,7 @@ int main(void)
 		  // Disable button interrupt so that it does not interfere with our menu
 		  HAL_NVIC_DisableIRQ(EXTI15_10_IRQn);
 
-		  // FOR TESTING ONLY
+		  // Save the file
 		  f_close(&fil);
 
 		  // Go into the menu display function in file setup_menu.c
@@ -359,6 +362,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  f_write(&fil, buffer, strlen(str), &bytesWrote); // Write to file
 	  //f_close(&fil); // Close the file
   }
+  else if (htim == &htim5)
+  {
+	  // Save the file every few seconds (TIM5)
+	  f_close(&fil);
+
+	  // Reopen to continue writing data
+	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND);
+  }
 }
 
 
@@ -389,9 +400,6 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-
-
 
 #ifdef  USE_FULL_ASSERT
 /**
