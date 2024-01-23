@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (11.3.rel1)
+# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
 ################################################################################
 
 -include ../makefile.init
@@ -47,14 +47,14 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 EXECUTABLES += \
 MTB_Telemetry_System_Firmware.elf \
 
-MAP_FILES += \
-MTB_Telemetry_System_Firmware.map \
-
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
 MTB_Telemetry_System_Firmware.list \
+
+OBJCOPY_BIN += \
+MTB_Telemetry_System_Firmware.bin \
 
 
 # All Target
@@ -64,8 +64,8 @@ all: main-build
 main-build: MTB_Telemetry_System_Firmware.elf secondary-outputs
 
 # Tool invocations
-MTB_Telemetry_System_Firmware.elf MTB_Telemetry_System_Firmware.map: $(OBJS) $(USER_OBJS) C:\Users\pniak\STM32CubeIDE\MTB-Telemetry-System\MTB-Telemetry-System\STM32\ Project\MTB_Telemetry_System_Firmware\STM32F401CCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MTB_Telemetry_System_Firmware.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\pniak\STM32CubeIDE\MTB-Telemetry-System\MTB-Telemetry-System\STM32 Project\MTB_Telemetry_System_Firmware\STM32F401CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MTB_Telemetry_System_Firmware.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+MTB_Telemetry_System_Firmware.elf: $(OBJS) $(USER_OBJS) C:\Users\User\Desktop\PROJEKT\ MIKROPROCKI\MTB-Telemetry-System\STM32\ Project\MTB_Telemetry_System_Firmware\STM32F401CCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "MTB_Telemetry_System_Firmware.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\User\Desktop\PROJEKT MIKROPROCKI\MTB-Telemetry-System\STM32 Project\MTB_Telemetry_System_Firmware\STM32F401CCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MTB_Telemetry_System_Firmware.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -79,12 +79,17 @@ MTB_Telemetry_System_Firmware.list: $(EXECUTABLES) makefile objects.list $(OPTIO
 	@echo 'Finished building: $@'
 	@echo ' '
 
+MTB_Telemetry_System_Firmware.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "MTB_Telemetry_System_Firmware.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) MTB_Telemetry_System_Firmware.elf MTB_Telemetry_System_Firmware.list MTB_Telemetry_System_Firmware.map default.size.stdout
+	-$(RM) MTB_Telemetry_System_Firmware.bin MTB_Telemetry_System_Firmware.elf MTB_Telemetry_System_Firmware.list default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'

@@ -1,5 +1,6 @@
 #include "stm32f4xx_hal.h"
 #include "main.h"
+#include "ST7565.h"
 
 // ADC Handler
 ADC_HandleTypeDef hadc1;

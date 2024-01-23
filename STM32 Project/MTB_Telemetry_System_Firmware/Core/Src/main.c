@@ -157,11 +157,13 @@ int main(void)
   HAL_Delay(2000);
 
   SD_check = f_mount(&FatFs, "", 1); // open file system
-  if(SD_check != FR_OK){
+  if(SD_check != FR_OK)
+  {
 
 	  My_Error_Handler(SD_Error);
   }
-  else{
+  else
+  {
 	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
   }
 
