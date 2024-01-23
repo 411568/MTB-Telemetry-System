@@ -76,6 +76,7 @@ uint8_t button_pressed = 0;
 FATFS FatFs;
 FIL fil;
 BYTE buffer[30];
+FRESULT SD_check;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -155,8 +156,15 @@ int main(void)
   //SD CARD
   HAL_Delay(2000);
 
-  f_mount(&FatFs, "", 1); // open file system
-  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
+  SD_check = f_mount(&FatFs, "", 1); // open file system
+  if(SD_check != FR_OK){
+
+	  My_Error_Handler(SD_Error);
+  }
+  else{
+	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
+  }
+
   HAL_NVIC_EnableIRQ(TIM4_IRQn);
   HAL_NVIC_EnableIRQ(TIM5_IRQn);
 

@@ -57,20 +57,30 @@ void My_Error_Handler(uint8_t error)
 		{
 			strcpy(str_temp, "MAGNETIC");
 			strcat(str, str_temp);
+			strcpy(str_temp, " ");
+			strcat(str, str_temp);
+			strcpy(str_temp, "SENSOR");
 		}
-		else
+		else if(error == 2)
 		{
 			strcpy(str_temp, "ACCELEROMETER");
+			strcat(str, str_temp);
+			strcpy(str_temp, " ");
+			strcat(str, str_temp);
+			strcpy(str_temp, "SENSOR");
+		}else{
+			strcpy(str_temp, "SD");
+			strcat(str, str_temp);
+			strcpy(str_temp, " ");
+			strcat(str, str_temp);
+			strcpy(str_temp, "CARD");
 		}
 
 		strcpy(str_temp, " ");
 		strcat(str, str_temp);
-		strcpy(str_temp, "SENSOR");
-		strcpy(str_temp, " ");
-		strcat(str, str_temp);
 		strcpy(str_temp, "ERROR");
 		strcat(str, str_temp);
-		ST7565_drawstring(40, 0, str_temp);
+		ST7565_drawstring(40, 0, str);
 
 		ST7565_display();
 

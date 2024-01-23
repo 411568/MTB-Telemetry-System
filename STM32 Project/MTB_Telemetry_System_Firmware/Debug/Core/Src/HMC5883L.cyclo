@@ -1,4 +1,4 @@
 ../Core/Src/HMC5883L.c:3:9:HMC5883L_initialize	3
-../Core/Src/HMC5883L.c:37:10:HMC5883L_get_X	2
-../Core/Src/HMC5883L.c:64:10:HMC5883L_get_Y	2
-../Core/Src/HMC5883L.c:88:10:HMC5883L_get_Z	2
+../Core/Src/HMC5883L.c:38:10:HMC5883L_get_X	2
+../Core/Src/HMC5883L.c:66:10:HMC5883L_get_Y	2
+../Core/Src/HMC5883L.c:90:10:HMC5883L_get_Z	2

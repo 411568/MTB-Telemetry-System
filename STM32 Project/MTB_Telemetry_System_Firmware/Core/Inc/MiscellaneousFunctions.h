@@ -17,3 +17,5 @@ uint8_t Read_Battery_Voltage();
 
 //Our version of error handler displaying error data on screen
 void My_Error_Handler(uint8_t error);
+
+

@@ -44,18 +44,19 @@ uint16_t HMC5883L_get_X(uint8_t sensor)
 	// Read the register
 	if(sensor == 0)
 	{
+
 		// RECEIVE X_axis
 		HAL_I2C_Mem_Read(&handler_1_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAX_MSB_MULTI,1,DataX,2,100);
 		HAL_I2C_Mem_Read(&handler_1_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAY_MSB_MULTI,1,temp,2,100);
 		HAL_I2C_Mem_Read(&handler_1_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAZ_MSB_MULTI,1,temp,2,100);
-		check = 0;
+
 	}
 	else
 	{
 		HAL_I2C_Mem_Read(&handler_2_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAX_MSB_MULTI,1,DataX,2,100);
 		HAL_I2C_Mem_Read(&handler_2_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAY_MSB_MULTI,1,temp,2,100);
 		HAL_I2C_Mem_Read(&handler_2_HMC,HMC5883l_ADDRESS,HMC5883l_ADD_DATAZ_MSB_MULTI,1,temp,2,100);
-		check = 0;
+
 	}
 
 	Xaxis = ((DataX[1]<<8) | DataX[0]);

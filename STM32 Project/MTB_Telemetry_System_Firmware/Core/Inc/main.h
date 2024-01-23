@@ -88,6 +88,7 @@ void Error_Handler(void);
 #define SD_SPI_HANDLE hspi2 // define the SPI handle for SD card
 #define MPU_Error 1
 #define HMC_Error 2
+#define SD_Error 3
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
