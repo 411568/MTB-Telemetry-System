@@ -189,7 +189,7 @@ int main(void)
 
     strcpy(fileName, str_temp);
 
-	f_open(&fil, fileName, FA_WRITE | FA_CREATE_NEW | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
+    f_open(&fil, fileName, FA_WRITE | FA_CREATE_NEW | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
   }
 
   HAL_NVIC_EnableIRQ(TIM4_IRQn);

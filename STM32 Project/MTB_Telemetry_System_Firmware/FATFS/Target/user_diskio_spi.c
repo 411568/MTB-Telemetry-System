@@ -1,3 +1,20 @@
+/**
+ ******************************************************************************
+  * @file    user_diskio_spi.c
+  * @brief   This file contains the implementation of the user_diskio_spi FatFs
+  *          driver.
+  ******************************************************************************
+  * Portions copyright (C) 2014, ChaN, all rights reserved.
+  * Portions copyright (C) 2017, kiwih, all rights reserved.
+  *
+  * This software is a free software and there is NO WARRANTY.
+  * No restriction on use. You can use, modify and redistribute it for
+  * personal, non-profit or commercial products UNDER YOUR RESPONSIBILITY.
+  * Redistributions of source code must retain the above copyright notice.
+  *
+  ******************************************************************************
+  */
+
 #include "stm32f4xx_hal.h" 
 #include "user_diskio_spi.h"
 
