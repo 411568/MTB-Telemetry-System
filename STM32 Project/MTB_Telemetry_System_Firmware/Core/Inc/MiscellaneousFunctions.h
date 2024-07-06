@@ -3,7 +3,7 @@
 #include "ST7565.h"
 
 // ADC Handler
-ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc1;
 #define handler_batt_adc hadc1
 
 #define CHANNEL_BATT_ADC ADC_CHANNEL_2

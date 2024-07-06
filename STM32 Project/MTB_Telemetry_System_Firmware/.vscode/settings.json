@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "ff_gen_drv.h": "c",
+        "ff.h": "c",
+        "fatfs.h": "c",
+        "user_diskio.h": "c",
+        "diskio.h": "c"
+    }
+}

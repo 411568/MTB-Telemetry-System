@@ -72,6 +72,9 @@ RTC_DateTypeDef date;
 
 uint8_t button_pressed = 0;
 
+// Currently used file name
+char fileName[50] = "";
+
 // SD CARD
 FATFS FatFs;
 FIL fil;
@@ -159,12 +162,34 @@ int main(void)
   SD_check = f_mount(&FatFs, "", 1); // open file system
   if(SD_check != FR_OK)
   {
-
 	  My_Error_Handler(SD_Error);
   }
   else
   {
-	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
+	// Create a new file every time the device turns on
+
+    char str[30] = "";
+    char str_temp[30] = "";
+
+    // Get current time
+    HAL_RTC_GetTime(&hrtc, &time, RTC_FORMAT_BIN);
+    HAL_RTC_GetDate(&hrtc, &date, RTC_FORMAT_BIN);
+
+    sprintf(str, "%02u", time.Hours);
+    strcat(str_temp, str);
+    sprintf(str, "%02u", time.Minutes);
+    strcat(str_temp, str);
+    sprintf(str, "%02u", date.Month);
+    strcat(str_temp, str);
+    sprintf(str, "%02u", date.Date);
+    strcat(str_temp, str);
+    strcat(str_temp, ".txt");
+
+//    strcpy(fileName, "test.txt");
+
+    strcpy(fileName, str_temp);
+
+	f_open(&fil, fileName, FA_WRITE | FA_CREATE_NEW | FA_OPEN_ALWAYS | FA_OPEN_APPEND); // open for write and append only
   }
 
   HAL_NVIC_EnableIRQ(TIM4_IRQn);
@@ -378,7 +403,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  f_close(&fil);
 
 	  // Reopen to continue writing data
-	  f_open(&fil, "results.txt", FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND);
+	  f_open(&fil, fileName, FA_WRITE | FA_OPEN_EXISTING | FA_OPEN_ALWAYS | FA_OPEN_APPEND);
   }
 }
 

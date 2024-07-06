@@ -33,9 +33,9 @@
  * Sensors have the same i2c address, so we're going to use two different i2c modules of the stm32.
  * Change this section to match the currently used i2c handler.
  */
-I2C_HandleTypeDef hi2c1; // Front sensor
+extern I2C_HandleTypeDef hi2c1; // Front sensor
 #define handler_1_HMC hi2c1
-I2C_HandleTypeDef hi2c2; // Rear sensor
+extern I2C_HandleTypeDef hi2c2; // Rear sensor
 #define handler_2_HMC hi2c2
 
 

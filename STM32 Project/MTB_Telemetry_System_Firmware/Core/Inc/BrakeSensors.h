@@ -7,7 +7,7 @@
 #define SENSOR_RIGHT 1
 
 // ADC Handler
-ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc1;
 #define handler_1_brakes hadc1
 
 // Channels definition

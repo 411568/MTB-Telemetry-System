@@ -21,7 +21,7 @@
 
 
 // SPI HANDLER
-SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi1;
 #define handler_1 hspi1
 
 

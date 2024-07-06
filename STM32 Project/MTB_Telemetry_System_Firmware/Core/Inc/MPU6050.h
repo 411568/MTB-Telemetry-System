@@ -11,7 +11,7 @@
 
 
 // I2C handler
-I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c1;
 #define handler_MPU6050 hi2c1
 
 
